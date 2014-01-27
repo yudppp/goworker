@@ -79,7 +79,7 @@ package goworker
 
 import (
 	"flag"
-	"os"
+	"strconv"
 	"strings"
 )
 
@@ -96,30 +96,54 @@ var (
 	isStrict       bool
 )
 
+func Config(values map[string]string) {
+	var err error
+
+	if x, ok := values["queues"]; ok {
+		queuesString = x
+	}
+
+	if x, ok := values["interval"]; ok {
+		if intervalFloat, err = strconv.ParseFloat(x, 64); err != nil {
+			panic(err)
+		}
+	}
+
+	if x, ok := values["concurrency"]; ok {
+		if concurrency, err = strconv.Atoi(x); err != nil {
+			panic(err)
+		}
+	}
+
+	if x, ok := values["connections"]; ok {
+		if connections, err = strconv.Atoi(x); err != nil {
+			panic(err)
+		}
+	}
+
+	if x, ok := values["uri"]; ok {
+		uri = x
+	}
+
+	if x, ok := values["namespace"]; ok {
+		namespace = x
+	}
+
+	if x, ok := values["exitOnComplete"]; ok {
+		if exitOnComplete, err = strconv.ParseBool(x); err != nil {
+			panic(err)
+		}
+	}
+}
+
 func init() {
-	flag.StringVar(&queuesString, "queues", "", "a comma-separated list of Resque queues")
-
-	flag.Float64Var(&intervalFloat, "interval", 5.0, "sleep interval when no jobs are found")
-
-	flag.IntVar(&concurrency, "concurrency", 25, "the maximum number of concurrently executing jobs")
-
-	flag.IntVar(&connections, "connections", 2, "the maximum number of connections to the Redis database")
-
-	redisProvider := os.Getenv("REDIS_PROVIDER")
-	var redisEnvUri string
-	if redisProvider != "" {
-		redisEnvUri = os.Getenv(redisProvider)
-	} else {
-		redisEnvUri = os.Getenv("REDIS_URL")
-	}
-	if redisEnvUri == "" {
-		redisEnvUri = "redis://localhost:6379/"
-	}
-	flag.StringVar(&uri, "uri", redisEnvUri, "the URI of the Redis server")
-
-	flag.StringVar(&namespace, "namespace", "resque:", "the Redis namespace")
-
-	flag.BoolVar(&exitOnComplete, "exit-on-complete", false, "exit when the queue is empty")
+	queuesString = ""
+	intervalFloat = 5.0
+	concurrency = 25
+	connections = 2
+	uri = "redis://localhost:6379/"
+	namespace = "resque:"
+	exitOnComplete = false
 }
 
 func flags() error {
