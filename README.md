@@ -74,10 +74,11 @@ To create workers that share a database pool or other resources, use a closure t
 package main
 
 import (
-	"github.com/kylebush/goworker"
+	"fmt"
+	"github.com/yudppp/goworker"
 )
 
-func newMyFunc(uri string) {
+func newMyFunc(uri string) (func(queue string, args ...interface{}) error) {
 	foo := NewFoo(uri)
 	return func(queue string, args ...interface{}) error {
 		foo.Bar(args)
@@ -86,7 +87,7 @@ func newMyFunc(uri string) {
 }
 
 func init() {
-	goworker.Register("MyClass", newMyFunc())
+	goworker.Register("MyClass", newMyFunc("http://www.example.com/"))
 }
 
 func main() {
@@ -120,7 +121,7 @@ func myFunc(queue, args ...interface{}) error {
 
 You can enqueue jobs and optionally specify that those jobs are deduped - only allowing unique jobs to be added to the queue:
 
-```go	
+```go
 args := make([]interface{}, 2)
 args[0] = "hi"
 args[1] = "there"
