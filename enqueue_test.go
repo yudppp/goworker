@@ -60,3 +60,33 @@ func TestEnqueueWriteToRedis(t *testing.T) {
 		t.Error(data["class"])
 	}
 }
+
+func TestEnqueueUniqueWriteToRedis(t *testing.T) {
+	p := newRedisPool(uri, 1, 1, time.Minute)
+	defer p.Close()
+
+	queues.Set("no")
+
+	args := make([]interface{}, 5)
+	args[0] = "foo"
+	args[1] = "bar"
+	args[2] = true
+	args[3] = 1
+	args[4] = 0.999999
+
+	EnqueueUnique("test3", "TestEnqueueUniqueWriteToRedis", args)
+	EnqueueUnique("test3", "TestEnqueueUniqueWriteToRedis", args)
+
+	WorkWithPool(p)
+	resource, _ := pool.Get()
+	conn := resource.(*redisConn)
+	defer pool.Put(conn)
+	defer conn.Do("DEL", fmt.Sprintf("%squeue:test3", namespace))
+	res, err := redis.Int(conn.Do("LLEN", fmt.Sprintf("%squeue:test3", namespace)))
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	if res != 1 {
+		t.Errorf("expecting 1 job in queue, but got %d jobs", res)
+	}
+}

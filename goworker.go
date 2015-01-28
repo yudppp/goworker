@@ -11,6 +11,14 @@ import (
 
 var logger seelog.LoggerInterface
 
+func init() {
+	var err error
+	logger, err = seelog.LoggerFromWriterWithMinLevel(os.Stdout, seelog.InfoLvl)
+	if err != nil {
+		panic(err)
+	}
+}
+
 // Call this function to run goworker. Check for errors in
 // the return value. Work will take over the Go executable
 // and will run until a QUIT, INT, or TERM signal is
