@@ -67,17 +67,19 @@
 package goworker
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
 )
 
-type intervalDuration time.Duration
+type intervalOption time.Duration
+type queuesOption []string
 
 type config struct {
-	queues         []string
-	interval       intervalDuration
+	queues         queuesOption
+	interval       intervalOption
 	concurrency    int
 	connections    int
 	uri            string
@@ -85,6 +87,11 @@ type config struct {
 	exitOnComplete bool
 	isStrict       bool
 }
+
+var (
+	errorEmptyQueues      = errors.New("You must specify at least one queue.")
+	errorNonNumericWeight = errors.New("The weight must be a numeric value.")
+)
 
 var cfg *config
 
@@ -113,7 +120,7 @@ func Configure(options map[string]string) {
 	}
 
 	if value, ok := options["interval"]; ok {
-		var i intervalDuration
+		var i intervalOption
 		if err = i.parse(value); err != nil {
 			panic(err)
 		} else {
@@ -156,7 +163,7 @@ func PrintConfig() string {
 		fmt.Sprintf(" | exitOnComplete: %v", cfg.exitOnComplete)
 }
 
-func (d *intervalDuration) parse(value string) error {
+func (d *intervalOption) parse(value string) error {
 	f, err := strconv.ParseFloat(value, 64)
 	if err != nil {
 		return err
@@ -165,17 +172,61 @@ func (d *intervalDuration) parse(value string) error {
 	return nil
 }
 
-func (d *intervalDuration) setFloat(value float64) error {
-	*d = intervalDuration(time.Duration(value * float64(time.Second)))
+func (d *intervalOption) setFloat(value float64) error {
+	*d = intervalOption(time.Duration(value * float64(time.Second)))
 	return nil
 }
 
-func (d *intervalDuration) String() string {
+func (d *intervalOption) String() string {
 	return fmt.Sprint(*d)
 }
 
-func (d *intervalDuration) secondsString() string {
+func (d *intervalOption) secondsString() string {
 	s := d.String()
 	f, _ := strconv.ParseFloat(s, 64)
 	return fmt.Sprint(f / 1E9)
+}
+
+func (q *queuesOption) Set(value string) error {
+	for _, queueAndWeight := range strings.Split(value, ",") {
+		if queueAndWeight == "" {
+			continue
+		}
+
+		queue, weight, err := parseQueueAndWeight(queueAndWeight)
+		if err != nil {
+			return err
+		}
+
+		for i := 0; i < weight; i++ {
+			*q = append(*q, queue)
+		}
+	}
+	if len(*q) == 0 {
+		return errorEmptyQueues
+	}
+	return nil
+}
+
+func (q *queuesOption) String() string {
+	return fmt.Sprint(*q)
+}
+
+func parseQueueAndWeight(queueAndWeight string) (queue string, weight int, err error) {
+	parts := strings.SplitN(queueAndWeight, "=", 2)
+	queue = parts[0]
+
+	if queue == "" {
+		return
+	}
+
+	if len(parts) == 1 {
+		weight = 1
+	} else {
+		weight, err = strconv.Atoi(parts[1])
+		if err != nil {
+			err = errorNonNumericWeight
+		}
+	}
+	return
 }
