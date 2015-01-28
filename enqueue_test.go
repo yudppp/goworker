@@ -9,19 +9,22 @@ import (
 )
 
 func TestEnqueueHasNoDeadlock(t *testing.T) {
-	p := newRedisPool(uri, 1, 1, time.Minute)
+
+	var err error
+	p := newRedisPool(cfg.uri, 1, 1, time.Minute)
 	defer p.Close()
 
-	exitOnComplete = true
-	queues.Set("test_enqueue_has_no_deadlock")
+	cfg.exitOnComplete = true
+	cfg.queues = []string{"test_enqueue_has_no_deadlock"}
 	jobProcessed := false
 	Register("NoDeadLock", func(q string, args ...interface{}) error {
-		Enqueue("dummy", "Dummy", nil)
+		EnqueueWithPool(p, "dummy", "Dummy", nil, false)
 		jobProcessed = true
 		return nil
 	})
-	Enqueue("test_enqueue_has_no_deadlock", "NoDeadLock", nil)
-	err := WorkWithPool(p)
+
+	err = EnqueueWithPool(p, "test_enqueue_has_no_deadlock", "NoDeadLock", nil, false)
+	err = WorkWithPool(p)
 	if !jobProcessed {
 		t.Error("job has not been processed")
 	}
@@ -31,25 +34,26 @@ func TestEnqueueHasNoDeadlock(t *testing.T) {
 	if p.IsClosed() {
 		t.Error("Pool should not be closed")
 	}
+
 	resource, _ := p.Get()
 	conn := resource.(*redisConn)
 	defer p.Put(conn)
-	defer conn.Do("DEL", fmt.Sprintf("%squeue:dummy", namespace))
-	defer conn.Do("DEL", fmt.Sprintf("%squeue:test_enqueue_has_no_deadlock", namespace))
+	defer conn.Do("DEL", fmt.Sprintf("%squeue:dummy", cfg.namespace))
+	defer conn.Do("DEL", fmt.Sprintf("%squeue:test_enqueue_has_no_deadlock", cfg.namespace))
 }
 
 func TestEnqueueWriteToRedis(t *testing.T) {
-	p := newRedisPool(uri, 1, 1, time.Minute)
+
+	p := newRedisPool(cfg.uri, 1, 1, time.Minute)
 	defer p.Close()
 
-	queues.Set("no")
-	Enqueue("test2", "TestEnqueueWriteToRedis", nil)
-	WorkWithPool(p)
-	resource, _ := pool.Get()
+	cfg.queues = []string{"no"}
+	EnqueueWithPool(p, "test2", "TestEnqueueWriteToRedis", nil, false)
+	resource, _ := p.Get()
 	conn := resource.(*redisConn)
-	defer pool.Put(conn)
-	defer conn.Do("DEL", fmt.Sprintf("%squeue:test2", namespace))
-	res, err := conn.Do("LPOP", fmt.Sprintf("%squeue:test2", namespace))
+	defer p.Put(conn)
+	defer conn.Do("DEL", fmt.Sprintf("%squeue:test2", cfg.namespace))
+	res, err := conn.Do("LPOP", fmt.Sprintf("%squeue:test2", cfg.namespace))
 	if err != nil {
 		t.Errorf("%v", err)
 	}
@@ -62,10 +66,10 @@ func TestEnqueueWriteToRedis(t *testing.T) {
 }
 
 func TestEnqueueUniqueWriteToRedis(t *testing.T) {
-	p := newRedisPool(uri, 1, 1, time.Minute)
+	p := newRedisPool(cfg.uri, 1, 1, time.Minute)
 	defer p.Close()
 
-	queues.Set("no")
+	cfg.queues = []string{"no"}
 
 	args := make([]interface{}, 5)
 	args[0] = "foo"
@@ -74,15 +78,14 @@ func TestEnqueueUniqueWriteToRedis(t *testing.T) {
 	args[3] = 1
 	args[4] = 0.999999
 
-	EnqueueUnique("test3", "TestEnqueueUniqueWriteToRedis", args)
-	EnqueueUnique("test3", "TestEnqueueUniqueWriteToRedis", args)
+	EnqueueWithPool(p, "test3", "TestEnqueueUniqueWriteToRedis", args, true)
+	EnqueueWithPool(p, "test3", "TestEnqueueUniqueWriteToRedis", args, true)
 
-	WorkWithPool(p)
-	resource, _ := pool.Get()
+	resource, _ := p.Get()
 	conn := resource.(*redisConn)
-	defer pool.Put(conn)
-	defer conn.Do("DEL", fmt.Sprintf("%squeue:test3", namespace))
-	res, err := redis.Int(conn.Do("LLEN", fmt.Sprintf("%squeue:test3", namespace)))
+	defer p.Put(conn)
+	defer conn.Do("DEL", fmt.Sprintf("%squeue:test3", cfg.namespace))
+	res, err := redis.Int(conn.Do("LLEN", fmt.Sprintf("%squeue:test3", cfg.namespace)))
 	if err != nil {
 		t.Errorf("%v", err)
 	}

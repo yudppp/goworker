@@ -1,6 +1,7 @@
 package goworker
 
 import (
+	"code.google.com/p/vitess/go/pools"
 	"encoding/json"
 	"fmt"
 
@@ -15,31 +16,70 @@ import (
 // param args:  arguments to pass to the handler function. Must be the non-marshalled version.
 //
 // return an error if args cannot be marshalled
-func EnqueueUnique(queue string, class string, args []interface{}) (err error) {
+func enqueue(p *pools.ResourcePool, queue string, class string, args []interface{}, dedupe bool) (err error) {
+
+	if dedupe {
+
+		if isJobUnique(p, queue, class, args) {
+			err = addToQueue(p, queue, class, args)
+		} else {
+			logger.Infof("not enqueueing duplicate msg in queue %s | class: %s | args: %v", queue, class, args)
+		}
+	} else {
+		err = addToQueue(p, queue, class, args)
+	}
+
+	return
+}
+
+func addToQueue(p *pools.ResourcePool, queue string, class string, args []interface{}) (err error) {
 
 	var conn *redisConn
 
-	// Retrieve a connection from the pool or create a new one if no pool is opened.
-	if pool != nil && !pool.IsClosed() {
-		resource, err := pool.Get()
-		if err != nil {
-			return err
-		}
-		conn = resource.(*redisConn)
-		defer pool.Put(conn)
+	resource, err := p.Get()
+	if err != nil {
+		logger.Criticalf("Error on getting connection to enqueue job: %v", err)
 	} else {
-		// non-optimized mode, create a pool to avoid getting there.
-		conn, err = redisConnFromUri(uri)
-		if err != nil {
-			return err
-		}
-		defer conn.Close()
+		conn = resource.(*redisConn)
+		defer p.Put(conn)
 	}
 
-	jobIsUnique := true
+	data := &payload{
+		Class: class,
+		Args:  args,
+	}
+
+	b, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+
+	// Push job in redis
+	_, err = conn.Do("RPUSH", fmt.Sprintf("%squeue:%s", cfg.namespace, queue), b)
+	if err != nil {
+		return
+	}
+
+	return
+
+}
+
+func isJobUnique(p *pools.ResourcePool, queue string, class string, args []interface{}) bool {
+
+	var conn *redisConn
+
+	isUnique := true
+
+	resource, err := p.Get()
+	if err != nil {
+		logger.Criticalf("Error on getting connection to check if job is already in queue: %v", err)
+	} else {
+		conn = resource.(*redisConn)
+		defer p.Put(conn)
+	}
 
 	// Check if job already exists in Redis
-	messages, _ := redis.Strings(conn.Do("lrange", fmt.Sprintf("%squeue:%s", namespace, queue), 0, -1))
+	messages, _ := redis.Strings(conn.Do("lrange", fmt.Sprintf("%squeue:%s", cfg.namespace, queue), 0, -1))
 
 	for _, msg := range messages {
 
@@ -51,64 +91,10 @@ func EnqueueUnique(queue string, class string, args []interface{}) (err error) {
 		inArgs := fmt.Sprintf("%v", args)
 
 		if resultClass == class && resultArgs == inArgs {
-			jobIsUnique = false
+			isUnique = false
 			break
 		}
 	}
 
-	conn.Flush()
-
-	if jobIsUnique {
-		return Enqueue(queue, class, args)
-	} else {
-		logger.Infof("not enqueueing duplicate msg in queue %s | class: %s | args: %v", queue, class, args)
-		return nil
-	}
-}
-
-// Enqueue function let you asynchronously enqueue a new job in Resque given
-// the queue, the class name and the parameters.
-//
-// param queue: name of the queue (not including the namespace)
-// param class: name of the Worker that can handle this job
-// param args:  arguments to pass to the handler function. Must be the non-marshalled version.
-//
-// return an error if args cannot be marshalled
-func Enqueue(queue string, class string, args []interface{}) (err error) {
-	data := &payload{
-		Class: class,
-		Args:  args,
-	}
-	b, err := json.Marshal(data)
-	if err != nil {
-		return
-	}
-
-	var conn *redisConn
-
-	// Retrieve a connection from the pool or create a new one if no pool is opened.
-	if pool != nil && !pool.IsClosed() {
-		resource, err := pool.Get()
-		if err != nil {
-			return err
-		}
-		conn = resource.(*redisConn)
-		defer pool.Put(conn)
-	} else {
-		// non-optimized mode, create a pool to avoid getting there.
-		conn, err = redisConnFromUri(uri)
-		if err != nil {
-			return err
-		}
-		defer conn.Close()
-	}
-
-	// Push job in redis
-	err = conn.Send("RPUSH", fmt.Sprintf("%squeue:%s", namespace, queue), b)
-	if err != nil {
-		return
-	}
-
-	conn.Flush()
-	return
+	return isUnique
 }

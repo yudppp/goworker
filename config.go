@@ -5,13 +5,13 @@
 // automatically poll a Redis server and call
 // your workers as jobs arrive.
 //
-// Flags
+// Configuration
 //
-// There are several flags which control the
+// There are several parameters which control the
 // operation of the goworker client.
 //
 // -queues="comma,delimited,queues"
-// — This is the only required flag. The
+// — This is the only required parameter. The
 // recommended practice is to separate your
 // Resque workers from your goworkers with
 // different queues. Otherwise, Resque worker
@@ -31,7 +31,7 @@
 // no job was in the queue the last time one was
 // requested.
 //
-// -concurrency=25
+// -concurrency=10
 // — Specifies the number of concurrently
 // executing workers. This number can be as low
 // as 1 or rather comfortably as high as 100,000,
@@ -52,12 +52,7 @@
 // — Specifies the URI of the Redis database from
 // which goworker polls for jobs. Accepts URIs of
 // the format redis://user:pass@host:port/db or
-// unix:///path/to/redis.sock. The flag may also
-// be set by the environment variable
-// $($REDIS_PROVIDER) or $REDIS_URL. E.g. set
-// $REDIS_PROVIDER to REDISTOGO_URL on Heroku to
-// let the Redis To Go add-on configure the Redis
-// database.
+// unix:///path/to/redis.sock.
 //
 // -namespace=resque:
 // — Specifies the namespace from which goworker
@@ -69,93 +64,118 @@
 // with the time command to benchmark different
 // configurations.
 //
-// You can also configure your own flags for use
-// within your workers. Be sure to set them
-// before calling goworker.Main(). It is okay to
-// call flags.Parse() before calling
-// goworker.Main() if you need to do additional
-// processing on your flags.
 package goworker
 
 import (
-	"flag"
+	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
-var (
-	queuesString   string
-	queues         queuesFlag
-	intervalFloat  float64
-	interval       intervalFlag
+type intervalDuration time.Duration
+
+type config struct {
+	queues         []string
+	interval       intervalDuration
 	concurrency    int
 	connections    int
 	uri            string
 	namespace      string
 	exitOnComplete bool
 	isStrict       bool
-)
-
-func Config(values map[string]string) {
-	var err error
-
-	if x, ok := values["queues"]; ok {
-		queuesString = x
-	}
-
-	if x, ok := values["interval"]; ok {
-		if intervalFloat, err = strconv.ParseFloat(x, 64); err != nil {
-			panic(err)
-		}
-	}
-
-	if x, ok := values["concurrency"]; ok {
-		if concurrency, err = strconv.Atoi(x); err != nil {
-			panic(err)
-		}
-	}
-
-	if x, ok := values["connections"]; ok {
-		if connections, err = strconv.Atoi(x); err != nil {
-			panic(err)
-		}
-	}
-
-	if x, ok := values["uri"]; ok {
-		uri = x
-	}
-
-	if x, ok := values["namespace"]; ok {
-		namespace = x
-	}
-
-	if x, ok := values["exitOnComplete"]; ok {
-		if exitOnComplete, err = strconv.ParseBool(x); err != nil {
-			panic(err)
-		}
-	}
 }
+
+var cfg *config
 
 func init() {
-	queuesString = ""
-	intervalFloat = 5.0
-	concurrency = 25
-	connections = 2
-	uri = "redis://localhost:6379/"
-	namespace = "resque:"
-	exitOnComplete = false
+
+	cfg = &config{}
+
+	Configure(map[string]string{
+		"queues":         "",
+		"interval":       "5.0",
+		"concurrency":    "10",
+		"connections":    "2",
+		"uri":            "redis://localhost:6379/",
+		"namespace":      "resque:",
+		"exitOnComplete": "false",
+		"isStrict":       "true"})
 }
 
-func flags() error {
-	if !flag.Parsed() {
-		flag.Parse()
+func Configure(options map[string]string) {
+
+	var err error
+
+	if value, ok := options["queues"]; ok {
+		cfg.queues = strings.Split(value, ",")
+		cfg.isStrict = strings.IndexRune(value, '=') == -1
 	}
-	if err := queues.Set(queuesString); err != nil {
+
+	if value, ok := options["interval"]; ok {
+		var i intervalDuration
+		if err = i.parse(value); err != nil {
+			panic(err)
+		} else {
+			cfg.interval = i
+		}
+	}
+
+	if value, ok := options["concurrency"]; ok {
+		if cfg.concurrency, err = strconv.Atoi(value); err != nil {
+			panic(err)
+		}
+	}
+
+	if value, ok := options["connections"]; ok {
+		if cfg.connections, err = strconv.Atoi(value); err != nil {
+			panic(err)
+		}
+	}
+
+	if value, ok := options["uri"]; ok {
+		cfg.uri = value
+	}
+
+	if value, ok := options["namespace"]; ok {
+		cfg.namespace = value
+	}
+
+	if value, ok := options["exitOnComplete"]; ok {
+		if cfg.exitOnComplete, err = strconv.ParseBool(value); err != nil {
+			panic(err)
+		}
+	}
+}
+
+func PrintConfig() string {
+
+	return fmt.Sprintf("queues: %v | interval: %v", cfg.queues, cfg.interval.secondsString()) +
+		fmt.Sprintf(" | concurrency: %v | connections: %v", cfg.concurrency, cfg.connections) +
+		fmt.Sprintf(" | uri: %v | namespace: %v", cfg.uri, cfg.namespace) +
+		fmt.Sprintf(" | exitOnComplete: %v", cfg.exitOnComplete)
+}
+
+func (d *intervalDuration) parse(value string) error {
+	f, err := strconv.ParseFloat(value, 64)
+	if err != nil {
 		return err
 	}
-	if err := interval.SetFloat(intervalFloat); err != nil {
-		return err
-	}
-	isStrict = strings.IndexRune(queuesString, '=') == -1
+	d.setFloat(f)
 	return nil
+}
+
+func (d *intervalDuration) setFloat(value float64) error {
+	*d = intervalDuration(time.Duration(value * float64(time.Second)))
+	return nil
+}
+
+func (d *intervalDuration) String() string {
+	return fmt.Sprint(*d)
+}
+
+func (d *intervalDuration) secondsString() string {
+	s := d.String()
+	f, _ := strconv.ParseFloat(s, 64)
+	return fmt.Sprint(f / 1E9)
 }

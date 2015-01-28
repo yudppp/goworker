@@ -27,7 +27,7 @@ func (p *poller) getJob(conn *redisConn) (*job, error) {
 	for _, queue := range p.queues(p.isStrict) {
 		logger.Debugf("Checking %s", queue)
 
-		reply, err := conn.Do("LPOP", fmt.Sprintf("%squeue:%s", namespace, queue))
+		reply, err := conn.Do("LPOP", fmt.Sprintf("%squeue:%s", cfg.namespace, queue))
 		if err != nil {
 			return nil, err
 		}
@@ -91,7 +91,7 @@ func (p *poller) poll(pool *pools.ResourcePool, interval time.Duration, quit <-c
 						logger.Errorf("Error on %v getting job from %v: %v", p, p.Queues, err)
 					}
 					if job != nil {
-						conn.Send("INCR", fmt.Sprintf("%sstat:processed:%v", namespace, p))
+						conn.Send("INCR", fmt.Sprintf("%sstat:processed:%v", cfg.namespace, p))
 						conn.Flush()
 						pool.Put(conn)
 						select {
@@ -108,13 +108,13 @@ func (p *poller) poll(pool *pools.ResourcePool, interval time.Duration, quit <-c
 							}
 
 							conn := resource.(*redisConn)
-							conn.Send("LPUSH", fmt.Sprintf("%squeue:%s", namespace, job.Queue), buf)
+							conn.Send("LPUSH", fmt.Sprintf("%squeue:%s", cfg.namespace, job.Queue), buf)
 							conn.Flush()
 							return
 						}
 					} else {
 						pool.Put(conn)
-						if exitOnComplete {
+						if cfg.exitOnComplete {
 							return
 						} else {
 							logger.Debugf("Sleeping for %v", interval)
