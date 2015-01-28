@@ -9,3 +9,6 @@ matrix:
   allowed_failures:
     go:
       - tip
+
+services:
+  - redis-server
