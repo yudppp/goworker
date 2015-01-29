@@ -121,7 +121,7 @@ func myFunc(queue, args ...interface{}) error {
 You can enqueue jobs and optionally specify that those jobs are deduped - only allowing unique jobs to be added to the queue:
 
 ```go	
-make([]interface{}, 2)
+args := make([]interface{}, 2)
 args[0] = "hi"
 args[1] = "there"
 goworker.Enqueue("myqueue", "MyClass", args, true)
