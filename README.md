@@ -1,23 +1,31 @@
 # goworker
 
-[![Build Status](https://travis-ci.org/benmanns/goworker.png?branch=master)](https://travis-ci.org/benmanns/goworker)
+[![Build Status](https://travis-ci.org/kylebush/goworker.png?branch=master)](https://travis-ci.org/kylebush/goworker)
 
 goworker is a Resque-compatible, Go-based background worker. It allows you to push jobs into a queue using an expressive language like Ruby while harnessing the efficiency and concurrency of Go to minimize job latency and cost.
 
 goworker workers can run alongside Ruby Resque clients so that you can keep all but your most resource-intensive jobs in Ruby.
+
+## Updates
+
+Forked from https://github.com/benmanns/goworker and includes some commits from other forks.  The following modifications have been added to this fork:
+
+* Configuration parameters for initialization
+* Removed usage of command line arguements / flags
+* Enqueue method which adds jobs to the queue featuring a dedupe option
 
 ## Installation
 
 To install goworker, use
 
 ```sh
-go get github.com/benmanns/goworker
+go get github.com/kylebush/goworker
 ```
 
 to install the package, and then from your worker
 
 ```go
-import "github.com/benmanns/goworker"
+import "github.com/kylebush/goworker"
 ```
 
 ## Getting Started
@@ -41,7 +49,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/benmanns/goworker"
+	"github.com/kylebush/goworker"
 )
 
 func myFunc(queue string, args ...interface{}) error {
@@ -66,7 +74,7 @@ To create workers that share a database pool or other resources, use a closure t
 package main
 
 import (
-	"github.com/benmanns/goworker"
+	"github.com/kylebush/goworker"
 )
 
 func newMyFunc(uri string) {
@@ -110,6 +118,17 @@ func myFunc(queue, args ...interface{}) error {
 }
 ```
 
+You can enqueue jobs and optionally specify that those jobs are deduped - only allowing unique jobs to be added to the queue:
+
+```go	
+make([]interface{}, 2)
+args[0] = "hi"
+args[1] = "there"
+goworker.Enqueue("myqueue", "MyClass", args, true)
+```
+
+will enqueue a job with arguements `hi` and `there` for the `MyClass` worker onto the `myqueue` queue. Job will be enqueued only if the job for `MyClass` worker with arguements `hi` and `there` do not already exist in the queue.
+
 For testing, it is helpful to use the `redis-cli` program to insert jobs onto the Redis queue:
 
 ```sh
@@ -128,19 +147,29 @@ end
 end
 ```
 
-## Flags
+## Config
 
-There are several flags which control the operation of the goworker client.
+There are several options which control the operation of the goworker client.
 
 * `-queues="comma,delimited,queues"` — This is the only required flag. The recommended practice is to separate your Resque workers from your goworkers with different queues. Otherwise, Resque worker classes that have no goworker analog will cause the goworker process to fail the jobs. Because of this, there is no default queue, nor is there a way to select all queues (à la Resque's `*` queue). If you have multiple queues you can assign them weights. A queue with a weight of 2 will be checked twice as often as a queue with a weight of 1: `-queues='high=2,low=1'`.
 * `-interval=5.0` — Specifies the wait period between polling if no job was in the queue the last time one was requested.
 * `-concurrency=25` — Specifies the number of concurrently executing workers. This number can be as low as 1 or rather comfortably as high as 100,000, and should be tuned to your workflow and the availability of outside resources.
 * `-connections=2` — Specifies the maximum number of Redis connections that goworker will consume between the poller and all workers. There is not much performance gain over two and a slight penalty when using only one. This is configurable in case you need to keep connection counts low for cloud Redis providers who limit plans on `maxclients`.
-* `-uri=redis://localhost:6379/` — Specifies the URI of the Redis database from which goworker polls for jobs. Accepts URIs of the format `redis://user:pass@host:port/db` or `unix:///path/to/redis.sock`. The flag may also be set by the environment variable `$($REDIS_PROVIDER)` or `$REDIS_URL`. E.g. set `$REDIS_PROVIDER` to `REDISTOGO_URL` on Heroku to let the Redis To Go add-on configure the Redis database.
+* `-uri=redis://localhost:6379/` — Specifies the URI of the Redis database from which goworker polls for jobs. Accepts URIs of the format `redis://user:pass@host:port/db` or `unix:///path/to/redis.sock`.
 * `-namespace=resque:` — Specifies the namespace from which goworker retrieves jobs and stores stats on workers.
 * `-exit-on-complete=false` — Exits goworker when there are no jobs left in the queue. This is helpful in conjunction with the `time` command to benchmark different configurations.
 
-You can also configure your own flags for use within your workers. Be sure to set them before calling `goworker.Main()`. It is okay to call `flags.Parse()` before calling `goworker.Main()` if you need to do additional processing on your flags.
+You can configure parameters using the `Configure` method:
+
+```go
+goworker.Configure(map[string]string{
+		"queues":      "myqueue1,myqueue2",
+		"interval":    "0.1",
+		"concurrency": "5",
+		"connections": "2",
+		"uri":         "redis://localhost:6379/",
+		"namespace":   "yourNamespace:"})
+```
 
 ## Signal Handling in goworker
 
@@ -159,11 +188,3 @@ resque:worker:<hostname>:<process-id>-<worker-id>:<queues>
 ```
 
 as a JSON object with keys `queue`, `run_at`, and `payload`, but the process is manual. Additionally, there is no guarantee that the job in Redis under the worker key has not finished, if the process is killed before goworker can flush the update to Redis.
-
-## Contributing
-
-1. [Fork it](https://github.com/benmanns/goworker/fork)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
