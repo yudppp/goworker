@@ -1,6 +1,7 @@
 package goworker
 
 import (
+	"bytes"
 	"code.google.com/p/vitess/go/pools"
 	"encoding/json"
 	"fmt"
@@ -36,7 +37,10 @@ func (p *poller) getJob(conn *redisConn) (*job, error) {
 
 			job := &job{Queue: queue}
 
-			if err := json.Unmarshal(reply.([]byte), &job.Payload); err != nil {
+			decoder := json.NewDecoder(bytes.NewReader(reply.([]byte)))
+			decoder.UseNumber()
+
+			if err := decoder.Decode(&job.Payload); err != nil {
 				return nil, err
 			}
 			return job, nil
