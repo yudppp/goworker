@@ -2,9 +2,9 @@ package goworker
 
 import (
 	"bytes"
-	"code.google.com/p/vitess/go/pools"
 	"encoding/json"
 	"fmt"
+	"github.com/youtube/vitess/go/pools"
 	"time"
 )
 

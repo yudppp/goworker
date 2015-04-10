@@ -1,9 +1,9 @@
 package goworker
 
 import (
-	"code.google.com/p/vitess/go/pools"
 	"encoding/json"
 	"fmt"
+	"github.com/youtube/vitess/go/pools"
 
 	"github.com/garyburd/redigo/redis"
 )

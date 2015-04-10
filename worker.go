@@ -1,10 +1,10 @@
 package goworker
 
 import (
-	"code.google.com/p/vitess/go/pools"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/youtube/vitess/go/pools"
 	"sync"
 	"time"
 )
