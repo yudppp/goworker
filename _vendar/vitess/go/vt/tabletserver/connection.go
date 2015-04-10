@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"code.google.com/p/vitess/go/mysql"
-	"code.google.com/p/vitess/go/mysql/proto"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/sqltypes"
-	"code.google.com/p/vitess/go/stats"
+	"github.com/yudppp/goworker/_vendar/vitess/go/mysql"
+	"github.com/yudppp/goworker/_vendar/vitess/go/mysql/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
+	"github.com/yudppp/goworker/_vendar/vitess/go/stats"
 )
 
 var mysqlStats *stats.Timings

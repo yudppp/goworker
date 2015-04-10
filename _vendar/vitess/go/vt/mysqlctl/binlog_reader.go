@@ -11,7 +11,7 @@ condition is if EOF is reached *and* the next file has appeared.
 */
 
 import (
-	"code.google.com/p/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
 	"encoding/binary"
 	"fmt"
 	"io"

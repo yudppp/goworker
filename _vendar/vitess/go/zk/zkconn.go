@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"code.google.com/p/vitess/go/sync2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
 	"launchpad.net/gozk/zookeeper"
 )
 

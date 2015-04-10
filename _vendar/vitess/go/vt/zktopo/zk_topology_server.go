@@ -11,8 +11,8 @@ import (
 	"sort"
 	"time"
 
-	"code.google.com/p/vitess/go/vt/topo"
-	"code.google.com/p/vitess/go/zk"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/zk"
 	"launchpad.net/gozk/zookeeper"
 )
 

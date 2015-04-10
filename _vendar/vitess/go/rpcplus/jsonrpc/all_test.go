@@ -5,7 +5,7 @@
 package jsonrpc
 
 import (
-	"code.google.com/p/vitess/go/rpcplus"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcplus"
 	"encoding/json"
 	"errors"
 	"fmt"

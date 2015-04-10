@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"code.google.com/p/vitess/go/vt/key"
-	"code.google.com/p/vitess/go/vt/sqlparser"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/key"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/sqlparser"
 )
 
 func TestQueryRules(t *testing.T) {

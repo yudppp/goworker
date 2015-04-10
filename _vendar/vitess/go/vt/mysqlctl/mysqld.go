@@ -22,11 +22,11 @@ import (
 	"strings"
 	"time"
 
-	"code.google.com/p/vitess/go/mysql"
-	"code.google.com/p/vitess/go/netutil"
-	"code.google.com/p/vitess/go/relog"
-	vtenv "code.google.com/p/vitess/go/vt/env"
-	"code.google.com/p/vitess/go/vt/hook"
+	"github.com/yudppp/goworker/_vendar/vitess/go/mysql"
+	"github.com/yudppp/goworker/_vendar/vitess/go/netutil"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	vtenv "github.com/yudppp/goworker/_vendar/vitess/go/vt/env"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/hook"
 )
 
 const (

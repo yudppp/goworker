@@ -19,12 +19,12 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/rpcwrap/bsonrpc"
-	"code.google.com/p/vitess/go/vt/hook"
-	"code.google.com/p/vitess/go/vt/key"
-	"code.google.com/p/vitess/go/vt/mysqlctl"
-	"code.google.com/p/vitess/go/vt/topo"
-	"code.google.com/p/vitess/go/vt/zktopo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/bsonrpc"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/hook"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/key"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/mysqlctl"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/zktopo"
 )
 
 // The actor applies individual commands to execute an action read from a node

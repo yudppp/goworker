@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/rpcwrap/proto"
-	"code.google.com/p/vitess/go/sqltypes"
-	"code.google.com/p/vitess/go/streamlog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
+	"github.com/yudppp/goworker/_vendar/vitess/go/streamlog"
 )
 
 var SqlQueryLogger = streamlog.New("SqlQuery", 50)

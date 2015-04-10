@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/vt/client2/tablet"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/client2/tablet"
 )
 
 func main() {

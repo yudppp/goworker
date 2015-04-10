@@ -12,10 +12,10 @@ import (
 	"strconv"
 	"strings"
 
-	"code.google.com/p/vitess/go/jscfg"
-	"code.google.com/p/vitess/go/netutil"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/key"
+	"github.com/yudppp/goworker/_vendar/vitess/go/jscfg"
+	"github.com/yudppp/goworker/_vendar/vitess/go/netutil"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/key"
 )
 
 const (

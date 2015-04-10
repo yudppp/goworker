@@ -8,7 +8,7 @@
 package bytes2
 
 import (
-	"code.google.com/p/vitess/go/hack"
+	"github.com/yudppp/goworker/_vendar/vitess/go/hack"
 	"fmt"
 	"io"
 	"unicode/utf8"

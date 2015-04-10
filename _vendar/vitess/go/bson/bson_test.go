@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"code.google.com/p/vitess/go/bytes2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/bytes2"
 )
 
 func TestVariety(t *testing.T) {

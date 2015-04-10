@@ -7,8 +7,8 @@ package tabletserver
 import (
 	"time"
 
-	"code.google.com/p/vitess/go/pools"
-	"code.google.com/p/vitess/go/sync2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
 )
 
 type ReservedPool struct {

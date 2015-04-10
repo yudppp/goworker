@@ -12,13 +12,13 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/bson"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/sqltypes"
-	estats "code.google.com/p/vitess/go/stats" // stats is a private type defined somewhere else in this package, so it would conflict
-	"code.google.com/p/vitess/go/sync2"
-	"code.google.com/p/vitess/go/vt/mysqlctl"
-	"code.google.com/p/vitess/go/vt/tabletserver/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/bson"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
+	estats "github.com/yudppp/goworker/_vendar/vitess/go/stats" // stats is a private type defined somewhere else in this package, so it would conflict
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/mysqlctl"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletserver/proto"
 )
 
 const (

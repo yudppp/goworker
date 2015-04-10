@@ -3,9 +3,9 @@ package wrangler
 import (
 	"fmt"
 
-	"code.google.com/p/vitess/go/relog"
-	tm "code.google.com/p/vitess/go/vt/tabletmanager"
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	tm "github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletmanager"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 // Assume the master is dead and not coming back. Just push your way

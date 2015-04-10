@@ -5,7 +5,7 @@
 package proto
 
 import (
-	"code.google.com/p/vitess/go/sqltypes"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
 )
 
 type Field struct {

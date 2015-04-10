@@ -7,11 +7,11 @@ package tabletserver
 import (
 	"net/http"
 
-	mproto "code.google.com/p/vitess/go/mysql/proto"
-	"code.google.com/p/vitess/go/relog"
-	rpcproto "code.google.com/p/vitess/go/rpcwrap/proto"
-	"code.google.com/p/vitess/go/vt/dbconfigs"
-	"code.google.com/p/vitess/go/vt/tabletserver/proto"
+	mproto "github.com/yudppp/goworker/_vendar/vitess/go/mysql/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	rpcproto "github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/dbconfigs"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletserver/proto"
 )
 
 type Config struct {

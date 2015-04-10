@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"sync"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/sync2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
 )
 
 var droppedMessages = expvar.NewMap("streamlog-dropped-messages")

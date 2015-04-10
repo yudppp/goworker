@@ -5,8 +5,8 @@
 package zk
 
 import (
-	"code.google.com/p/vitess/go/rpcplus"
-	"code.google.com/p/vitess/go/rpcwrap/bsonrpc"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcplus"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/bsonrpc"
 	"fmt"
 	"launchpad.net/gozk/zookeeper"
 	"log"

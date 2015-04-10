@@ -22,10 +22,10 @@ import (
 	"path"
 	"strings"
 
-	"code.google.com/p/vitess/go/netutil"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/zk"
-	"code.google.com/p/vitess/go/zk/zkns"
+	"github.com/yudppp/goworker/_vendar/vitess/go/netutil"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/zk"
+	"github.com/yudppp/goworker/_vendar/vitess/go/zk/zkns"
 )
 
 var (

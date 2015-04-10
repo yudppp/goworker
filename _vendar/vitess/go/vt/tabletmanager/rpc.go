@@ -7,11 +7,11 @@ package tabletmanager
 import (
 	"fmt"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/rpcwrap"
-	rpcproto "code.google.com/p/vitess/go/rpcwrap/proto"
-	"code.google.com/p/vitess/go/vt/mysqlctl"
-	"code.google.com/p/vitess/go/vt/rpc"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap"
+	rpcproto "github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/mysqlctl"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/rpc"
 )
 
 // we keep track of the agent so we can use its tabletAlias, ts, ...

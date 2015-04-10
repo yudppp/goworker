@@ -12,11 +12,11 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/rpcwrap"
-	estats "code.google.com/p/vitess/go/stats" // stats is a private type defined somewhere else in this package, so it would conflict
-	"code.google.com/p/vitess/go/sync2"
-	"code.google.com/p/vitess/go/vt/dbconfigs"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap"
+	estats "github.com/yudppp/goworker/_vendar/vitess/go/stats" // stats is a private type defined somewhere else in this package, so it would conflict
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/dbconfigs"
 )
 
 /* API and config for UpdateStream Service */

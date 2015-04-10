@@ -1,9 +1,9 @@
 package goworker
 
 import (
-	"_vendar/vitess/go/pools"
 	"encoding/json"
 	"fmt"
+	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
 
 	"github.com/garyburd/redigo/redis"
 )

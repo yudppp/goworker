@@ -12,9 +12,9 @@ import (
 	"sort"
 	"strings"
 
-	"code.google.com/p/vitess/go/jscfg"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/concurrency"
+	"github.com/yudppp/goworker/_vendar/vitess/go/jscfg"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/concurrency"
 )
 
 const (

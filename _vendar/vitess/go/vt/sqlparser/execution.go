@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/sqltypes"
-	"code.google.com/p/vitess/go/vt/schema"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/schema"
 )
 
 type PlanType int

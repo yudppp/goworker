@@ -13,7 +13,7 @@ import (
 	"net"
 	"sync"
 
-	rpc "code.google.com/p/vitess/go/rpcplus"
+	rpc "github.com/yudppp/goworker/_vendar/vitess/go/rpcplus"
 )
 
 type clientCodec struct {

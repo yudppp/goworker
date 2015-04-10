@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"code.google.com/p/vitess/go/ioutil2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/ioutil2"
 )
 
 func ToJson(val interface{}) string {

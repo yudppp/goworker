@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"code.google.com/p/vitess/go/db"
-	"code.google.com/p/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/db"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
 )
 
 const (

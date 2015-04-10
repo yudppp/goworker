@@ -14,7 +14,7 @@ import (
 	"strings"
 	"sync"
 
-	"code.google.com/p/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
 )
 
 var connectionCount = expvar.NewInt("connection-count")

@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"code.google.com/p/vitess/go/netutil"
-	"code.google.com/p/vitess/go/zk"
+	"github.com/yudppp/goworker/_vendar/vitess/go/netutil"
+	"github.com/yudppp/goworker/_vendar/vitess/go/zk"
 	"launchpad.net/gozk/zookeeper"
 )
 

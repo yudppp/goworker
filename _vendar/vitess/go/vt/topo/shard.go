@@ -10,8 +10,8 @@ import (
 	"path"
 	"sync"
 
-	"code.google.com/p/vitess/go/jscfg"
-	"code.google.com/p/vitess/go/vt/key"
+	"github.com/yudppp/goworker/_vendar/vitess/go/jscfg"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/key"
 )
 
 // Functions for dealing with shard representations in topology.

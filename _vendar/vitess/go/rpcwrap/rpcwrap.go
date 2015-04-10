@@ -12,10 +12,10 @@ import (
 	"net/http"
 	"time"
 
-	"code.google.com/p/vitess/go/relog"
-	rpc "code.google.com/p/vitess/go/rpcplus"
-	"code.google.com/p/vitess/go/rpcwrap/auth"
-	"code.google.com/p/vitess/go/rpcwrap/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	rpc "github.com/yudppp/goworker/_vendar/vitess/go/rpcplus"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/auth"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/proto"
 )
 
 const (

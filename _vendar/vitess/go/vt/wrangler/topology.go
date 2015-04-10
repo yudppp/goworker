@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 // TabletNodesByType maps tablet types to slices of tablet nodes.

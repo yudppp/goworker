@@ -12,17 +12,17 @@ import (
 	_ "net/http/pprof"
 	"os"
 
-	"code.google.com/p/vitess/go/jscfg"
-	"code.google.com/p/vitess/go/relog"
-	rpc "code.google.com/p/vitess/go/rpcplus"
-	"code.google.com/p/vitess/go/rpcwrap/bsonrpc"
-	"code.google.com/p/vitess/go/rpcwrap/jsonrpc"
-	_ "code.google.com/p/vitess/go/snitch"
+	"github.com/yudppp/goworker/_vendar/vitess/go/jscfg"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	rpc "github.com/yudppp/goworker/_vendar/vitess/go/rpcplus"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/bsonrpc"
+	"github.com/yudppp/goworker/_vendar/vitess/go/rpcwrap/jsonrpc"
+	_ "github.com/yudppp/goworker/_vendar/vitess/go/snitch"
 
-	"code.google.com/p/vitess/go/vt/dbconfigs"
-	"code.google.com/p/vitess/go/vt/mysqlctl"
-	"code.google.com/p/vitess/go/vt/tabletmanager"
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/dbconfigs"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/mysqlctl"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletmanager"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 var port = flag.Int("port", 0, "port for debug http server")

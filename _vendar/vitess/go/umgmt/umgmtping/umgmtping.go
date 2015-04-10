@@ -1,7 +1,7 @@
 package main
 
 import (
-	"code.google.com/p/vitess/go/umgmt"
+	"github.com/yudppp/goworker/_vendar/vitess/go/umgmt"
 	"flag"
 )
 

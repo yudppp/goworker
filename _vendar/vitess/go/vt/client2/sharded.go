@@ -11,18 +11,18 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/db"
+	"github.com/yudppp/goworker/_vendar/vitess/go/db"
 	// FIXME(msolomon) needed for the field mapping. Probably should be part of
 	// tablet, or moved.
-	mproto "code.google.com/p/vitess/go/mysql/proto"
-	"code.google.com/p/vitess/go/vt/client2/tablet"
-	"code.google.com/p/vitess/go/vt/key"
+	mproto "github.com/yudppp/goworker/_vendar/vitess/go/mysql/proto"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/client2/tablet"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/key"
 	// FIXME(msolomon) zk indirect dependency
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 	// FIXME(msolomon) seems like a subpackage
-	"code.google.com/p/vitess/go/vt/sqlparser"
-	"code.google.com/p/vitess/go/vt/zktopo"
-	"code.google.com/p/vitess/go/zk"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/sqlparser"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/zktopo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/zk"
 )
 
 // The sharded client handles writing to multiple shards across the

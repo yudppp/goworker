@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"code.google.com/p/vitess/go/pools"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/stats"
-	"code.google.com/p/vitess/go/streamlog"
-	"code.google.com/p/vitess/go/sync2"
-	"code.google.com/p/vitess/go/timer"
+	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/stats"
+	"github.com/yudppp/goworker/_vendar/vitess/go/streamlog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/timer"
 )
 
 /* Function naming convention:

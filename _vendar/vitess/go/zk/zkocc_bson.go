@@ -9,8 +9,8 @@ package zk
 
 import (
 	"bytes"
-	"code.google.com/p/vitess/go/bson"
-	"code.google.com/p/vitess/go/bytes2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/bson"
+	"github.com/yudppp/goworker/_vendar/vitess/go/bytes2"
 )
 
 func (zkPath *ZkPath) MarshalBson(buf *bytes2.ChunkedWriter) {

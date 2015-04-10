@@ -10,8 +10,8 @@ import (
 	"os"
 	"path"
 
-	"code.google.com/p/vitess/go/relog"
-	vtenv "code.google.com/p/vitess/go/vt/env"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	vtenv "github.com/yudppp/goworker/_vendar/vitess/go/vt/env"
 )
 
 /*

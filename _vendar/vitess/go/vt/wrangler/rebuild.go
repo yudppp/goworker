@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"sync"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/concurrency"
-	"code.google.com/p/vitess/go/vt/key"
-	tm "code.google.com/p/vitess/go/vt/tabletmanager"
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/concurrency"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/key"
+	tm "github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletmanager"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 func inCellList(cell string, cells []string) bool {

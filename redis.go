@@ -1,9 +1,9 @@
 package goworker
 
 import (
-	"_vendar/vitess/go/pools"
 	"errors"
 	"github.com/garyburd/redigo/redis"
+	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
 	"net/url"
 	"time"
 )

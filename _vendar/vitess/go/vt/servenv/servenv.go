@@ -23,8 +23,8 @@ import (
 	"syscall"
 	"time"
 
-	"code.google.com/p/vitess/go/logfile"
-	"code.google.com/p/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/logfile"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
 )
 
 var (

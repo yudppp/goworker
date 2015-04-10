@@ -5,7 +5,7 @@
 package snitch
 
 import (
-	"code.google.com/p/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
 	"fmt"
 	"net/http"
 	"runtime"

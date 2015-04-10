@@ -15,13 +15,13 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/sync2"
-	tm "code.google.com/p/vitess/go/vt/tabletmanager"
-	"code.google.com/p/vitess/go/vt/topo"
-	"code.google.com/p/vitess/go/vt/wrangler"
-	"code.google.com/p/vitess/go/vt/zktopo"
-	"code.google.com/p/vitess/go/zk"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sync2"
+	tm "github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletmanager"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/wrangler"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/zktopo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/zk"
 	"launchpad.net/gozk/zookeeper"
 )
 

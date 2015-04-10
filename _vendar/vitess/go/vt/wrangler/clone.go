@@ -8,10 +8,10 @@ import (
 	"fmt"
 	"sync"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/concurrency"
-	tm "code.google.com/p/vitess/go/vt/tabletmanager"
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/concurrency"
+	tm "github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletmanager"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 // forceMasterSnapshot: Normally a master is not a viable tablet to snapshot.

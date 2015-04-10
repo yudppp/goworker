@@ -13,7 +13,7 @@ import (
 	"path"
 	"text/template"
 
-	"code.google.com/p/vitess/go/vt/env"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/env"
 )
 
 type VtReplParams struct {

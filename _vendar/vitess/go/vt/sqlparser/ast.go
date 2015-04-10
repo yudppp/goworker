@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"code.google.com/p/vitess/go/sqltypes"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
 )
 
 type ParserError struct {

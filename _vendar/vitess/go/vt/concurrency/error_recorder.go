@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"code.google.com/p/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
 )
 
 // ErrorRecorder offers a way to record errors during complex

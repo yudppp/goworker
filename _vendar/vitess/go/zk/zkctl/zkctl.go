@@ -21,8 +21,8 @@ import (
 	"syscall"
 	"time"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/env"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/env"
 	"launchpad.net/gozk/zookeeper"
 )
 

@@ -9,10 +9,10 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/memcache"
-	"code.google.com/p/vitess/go/pools"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/dbconfigs"
+	"github.com/yudppp/goworker/_vendar/vitess/go/memcache"
+	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/dbconfigs"
 )
 
 const statsURL = "/debug/memcache/"

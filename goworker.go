@@ -1,8 +1,8 @@
 package goworker
 
 import (
-	"_vendar/vitess/go/pools"
 	"github.com/cihub/seelog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
 	"os"
 	"strconv"
 	"sync"

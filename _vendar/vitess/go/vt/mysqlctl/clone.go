@@ -14,9 +14,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"code.google.com/p/vitess/go/ioutil2"
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/hook"
+	"github.com/yudppp/goworker/_vendar/vitess/go/ioutil2"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/hook"
 )
 
 // These methods deal with cloning a running instance of mysql.

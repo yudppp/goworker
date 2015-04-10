@@ -7,11 +7,11 @@ import (
 	"sync"
 	"time"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/vt/hook"
-	"code.google.com/p/vitess/go/vt/mysqlctl"
-	tm "code.google.com/p/vitess/go/vt/tabletmanager"
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/hook"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/mysqlctl"
+	tm "github.com/yudppp/goworker/_vendar/vitess/go/vt/tabletmanager"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 // helper struct to queue up results

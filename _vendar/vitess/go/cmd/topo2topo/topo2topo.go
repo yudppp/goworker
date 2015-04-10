@@ -9,10 +9,10 @@ import (
 	"os"
 	"sync"
 
-	"code.google.com/p/vitess/go/relog"
-	"code.google.com/p/vitess/go/tb"
-	"code.google.com/p/vitess/go/vt/concurrency"
-	"code.google.com/p/vitess/go/vt/topo"
+	"github.com/yudppp/goworker/_vendar/vitess/go/relog"
+	"github.com/yudppp/goworker/_vendar/vitess/go/tb"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/concurrency"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/topo"
 )
 
 var fromTopo = flag.String("from", "", "topology to copy data from")

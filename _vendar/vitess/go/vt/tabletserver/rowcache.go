@@ -8,9 +8,9 @@ import (
 	"encoding/binary"
 	"time"
 
-	"code.google.com/p/vitess/go/sqltypes"
-	"code.google.com/p/vitess/go/stats"
-	"code.google.com/p/vitess/go/vt/schema"
+	"github.com/yudppp/goworker/_vendar/vitess/go/sqltypes"
+	"github.com/yudppp/goworker/_vendar/vitess/go/stats"
+	"github.com/yudppp/goworker/_vendar/vitess/go/vt/schema"
 )
 
 var cacheStats = stats.NewTimings("Cache")
