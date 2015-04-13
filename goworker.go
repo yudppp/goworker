@@ -1,12 +1,13 @@
 package goworker
 
 import (
-	"github.com/cihub/seelog"
-	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
 	"os"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/cihub/seelog"
+	"github.com/yudppp/goworker/_vendor/vitess/go/pools"
 )
 
 var logger seelog.LoggerInterface

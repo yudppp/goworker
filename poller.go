@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
 	"time"
+
+	"github.com/yudppp/goworker/_vendor/vitess/go/pools"
 )
 
 type poller struct {

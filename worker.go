@@ -1,12 +1,13 @@
 package goworker
 
 import (
-	"_vendar/vitess/go/pools"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"sync"
 	"time"
+
+	"github.com/yudppp/goworker/_vendor/vitess/go/pools"
 )
 
 type worker struct {

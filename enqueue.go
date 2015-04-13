@@ -3,9 +3,9 @@ package goworker
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/yudppp/goworker/_vendar/vitess/go/pools"
 
 	"github.com/garyburd/redigo/redis"
+	"github.com/yudppp/goworker/_vendor/vitess/go/pools"
 )
 
 // EnqueueUnique function let you asynchronously enqueue a new job in Resque given
